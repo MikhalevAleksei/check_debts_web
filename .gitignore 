@@ -1,0 +1,101 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.py.class
+*.so
+
+# --- Virtual environment ---
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# --- Django ---
+*.log
+*.pot
+*.pyc
+*.pyo
+db.sqlite3
+db.sqlite3-journal
+*.sqlite3
+
+# --- Media & Static ---
+media/
+staticfiles/
+static_root/
+pdfs/
+*.pdf
+
+# --- Secrets & environment ---
+.env
+*.env
+.env.*
+settings_local.py
+settings_dev.py
+
+# --- VSCode / PyCharm ---
+.vscode/
+.idea/
+*.iml
+
+# --- macOS system files ---
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# --- Migrations cache ---
+*/migrations/__pycache__/
+*/migrations/*.pyc
+
+# --- Byte-compiled / cache ---
+*.egg
+*.egg-info/
+.eggs/
+dist/
+build/
+wheels/
+*.manifest
+*.spec
+
+# --- Reports / coverage ---
+htmlcov/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+*.log
+.tox/
+.nox/
+.pytest_cache/
+
+# --- Temporary ---
+*.tmp
+*.temp
+*.swp
+*.swo
+*.bak
+*.orig
+
+# --- OS / Editor backup ---
+*~
+# --- Node / Frontend (если появится JS интерфейс) ---
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# --- Graphs / diagrams ---
+*.dot
+*.png
+*.svg
+schema_full.png
+schema.png

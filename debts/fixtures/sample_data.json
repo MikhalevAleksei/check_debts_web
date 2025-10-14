@@ -1,0 +1,96 @@
+[
+  {
+    "model": "debts.contract",
+    "pk": 1,
+    "fields": {
+      "number": "Д-001/2025",
+      "date": "2025-01-15"
+    }
+  },
+  {
+    "model": "debts.contract",
+    "pk": 2,
+    "fields": {
+      "number": "Д-045/2025",
+      "date": "2025-03-01"
+    }
+  },
+  {
+    "model": "debts.tenant",
+    "pk": 1,
+    "fields": {
+      "name": "ООО Ромашка",
+      "email": "info@romashka.ru",
+      "phone": "+79001234567",
+      "contract": 1,
+      "monthly_rent": "45000.00",
+      "payment_day": 5
+    }
+  },
+  {
+    "model": "debts.tenant",
+    "pk": 2,
+    "fields": {
+      "name": "ИП Иванов",
+      "email": "ivanov@example.com",
+      "phone": "+79009998877",
+      "contract": 2,
+      "monthly_rent": "60000.00",
+      "payment_day": 10
+    }
+  },
+  {
+    "model": "debts.payment",
+    "pk": 1,
+    "fields": {
+      "tenant": 1,
+      "amount": "45000.00",
+      "payment_date": "2025-09-05",
+      "period_start": "2025-09-01",
+      "period_end": "2025-09-30",
+      "is_paid": false
+    }
+  },
+  {
+    "model": "debts.payment",
+    "pk": 2,
+    "fields": {
+      "tenant": 2,
+      "amount": "60000.00",
+      "payment_date": "2025-09-10",
+      "period_start": "2025-09-01",
+      "period_end": "2025-09-30",
+      "is_paid": false
+    }
+  },
+  {
+    "model": "debts.notification",
+    "pk": 1,
+    "fields": {
+      "tenant": 1,
+      "notification_type": "email",
+      "sent_date": "2025-10-01T09:00:00Z",
+      "message": "Напоминание: осталось пять дней до оплаты суммы аренды."
+    }
+  },
+  {
+    "model": "debts.notification",
+    "pk": 2,
+    "fields": {
+      "tenant": 1,
+      "notification_type": "claim",
+      "sent_date": "2025-10-10T09:00:00Z",
+      "message": "Требование о погашении задолженности."
+    }
+  },
+  {
+    "model": "debts.notification",
+    "pk": 3,
+    "fields": {
+      "tenant": 2,
+      "notification_type": "email",
+      "sent_date": "2025-10-02T09:00:00Z",
+      "message": "Напоминание: осталось пять дней до оплаты суммы аренды."
+    }
+  }
+]

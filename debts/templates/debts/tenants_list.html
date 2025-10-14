@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Список должников</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; margin: 24px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { padding: 10px; border-bottom: 1px solid #e5e7eb; text-align: left; }
+    a { text-decoration: none; color: #2563eb; }
+  </style>
+</head>
+<body>
+  <h1>Список должников</h1>
+
+  {% if tenants %}
+    <table>
+      <thead>
+        <tr><th>Арендатор</th><th>Договор</th><th>Оплата</th></tr>
+      </thead>
+      <tbody>
+        {% for t in tenants %}
+          <tr>
+            <td><a href="{% url 'tenant_detail' t.id %}">{{ t.name }}</a></td>
+            <td>{{ t.contract.number }} от {{ t.contract.date|date:"d.m.Y" }}</td>
+            <td>{{ t.monthly_rent }} ₽ / мес</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Должников нет 🎉</p>
+  {% endif %}
+</body>
+</html>
