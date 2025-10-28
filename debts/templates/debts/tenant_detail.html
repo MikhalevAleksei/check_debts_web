@@ -1,58 +1,54 @@
+{% extends 'debts/base.html' %}
 
-<!doctype html>
-<html lang="ru">
-<head>
-  <meta charset="utf-8">
-  <title>{{ tenant.name }}</title>
-  <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; margin: 24px; }
-    h1, h2 { margin: 0 0 12px 0; }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-    table { border-collapse: collapse; width: 100%; }
-    th, td { padding: 8px; border-bottom: 1px solid #e5e7eb; text-align: left; }
-    a { text-decoration: none; color: #2563eb; }
-  </style>
-</head>
-<body>
-  <a href="{% url 'tenants_list' %}">← ко всем должникам</a>
-  <h1>{{ tenant.name }}</h1>
-  <p><strong>Договор:</strong> {{ tenant.contract.number }} от {{ tenant.contract.date|date:"d.m.Y" }}</p>
-  <p><strong>Ежемесячная оплата:</strong> {{ tenant.monthly_rent }} ₽; <strong>день оплаты:</strong> {{ tenant.payment_day }}</p>
+{% block title %}Информация об арендаторе{% endblock %}
 
-  <div class="grid">
-    <section>
-      <h2>Платежи</h2>
-      <table>
-        <thead><tr><th>Период</th><th>Дата платежа</th><th>Сумма</th><th>Статус</th></tr></thead>
-        <tbody>
-          {% for p in payments %}
-          <tr>
-            <td>{{ p.period_start|date:"d.m.Y" }} – {{ p.period_end|date:"d.m.Y" }}</td>
-            <td>{{ p.payment_date|date:"d.m.Y" }}</td>
-            <td>{{ p.amount }} ₽</td>
-            <td>{% if p.is_paid %}оплачено{% else %}<strong>долг</strong>{% endif %}</td>
-          </tr>
-          {% empty %}
-          <tr><td colspan="4">Нет платежей</td></tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </section>
+{% block content %}
+<h2>{{ tenant.name }}</h2>
+<p><b>Email:</b> {{ tenant.email|default:"—" }}</p>
+<p><b>Телефон:</b> {{ tenant.phone|default:"—" }}</p>
+<p><b>Договор:</b> {{ tenant.contract.number }} от {{ tenant.contract.date|date:"d.m.Y" }}</p>
+<p><b>Ежемесячная оплата:</b> {{ tenant.monthly_rent }} руб.</p>
+<p><b>День оплаты:</b> {{ tenant.payment_day }}</p>
 
-    <section>
-      <h2>Письма (PDF)</h2>
-      <ul>
-        {% for n in notifications %}
-          <li>
-            <a href="{% url 'notification_pdf' n.id %}" target="_blank">
-              {{ n.get_notification_type_display }} — {{ n.sent_date|date:"d.m.Y" }}
-            </a>
-          </li>
-        {% empty %}
-          <li>Писем нет</li>
-        {% endfor %}
-      </ul>
-    </section>
-  </div>
-</body>
-</html>
+<hr>
+<h3>Платежи</h3>
+<table class="table">
+    <tr>
+        <th>Дата</th>
+        <th>Сумма</th>
+        <th>Период</th>
+        <th>Статус</th>
+    </tr>
+    {% for p in payments %}
+    <tr>
+        <td>{{ p.payment_date|date:"d.m.Y" }}</td>
+        <td>{{ p.amount }}</td>
+        <td>{{ p.period_start|date:"d.m.Y" }} - {{ p.period_end|date:"d.m.Y" }}</td>
+        <td>
+            {% if p.is_paid %}
+                <span class="paid">Оплачено</span>
+            {% else %}
+                <span class="debt">Долг</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4">Платежей нет.</td></tr>
+    {% endfor %}
+</table>
+
+<hr>
+<h3>Письма и уведомления</h3>
+<ul class="notifications">
+    {% for n in notifications %}
+    <li>
+        <b>{{ n.sent_date|date:"d.m.Y H:i" }}</b> — {{ n.get_notification_type_display }}
+        (<a href="{{ n.pdf_file.url }}" target="_blank">открыть PDF</a>)
+    </li>
+    {% empty %}
+    <li>Уведомлений пока нет.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'tenants_list' %}" class="btn-back">← Назад к списку</a>
+{% endblock %}

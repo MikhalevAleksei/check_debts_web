@@ -1,9 +1,13 @@
-
+from django.contrib import admin
 from django.urls import path
-from . import views
+from debts import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("", views.tenants_list, name="tenants_list"),
-    path("tenants/<int:pk>/", views.tenant_detail, name="tenant_detail"),
-    path("notifications/<int:pk>/", views.notification_pdf_view, name="notification_pdf"),
+    path("tenant/<int:pk>/", views.tenant_detail, name="tenant_detail"),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.BASE_DIR / "debts" / "static")
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

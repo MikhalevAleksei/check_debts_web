@@ -1,23 +1,28 @@
-
 import os
 from django.shortcuts import render, get_object_or_404
 from django.http import FileResponse, Http404
-from .models import Tenant, Notification
+from .models import Tenant, Notification, Payment
 from .utils.pdf_generator import ensure_notification_pdf
 
+
 def tenants_list(request):
-    tenants = [t for t in Tenant.objects.select_related("contract").all() if t.has_debt]
+    tenants = Tenant.objects.all()
     return render(request, "debts/tenants_list.html", {"tenants": tenants})
 
-def tenant_detail(request, pk: int):
-    tenant = get_object_or_404(Tenant.objects.select_related("contract"), pk=pk)
-    payments = tenant.payment_set.order_by("-payment_date")
+
+def tenant_detail(request, pk):
+    tenant = get_object_or_404(Tenant, pk=pk)
+    payments = Payment.objects.filter(tenant=tenant)
     notifications = Notification.objects.filter(tenant=tenant).order_by("-sent_date")
-    return render(request, "debts/tenant_detail.html", {
-        "tenant": tenant,
-        "payments": payments,
-        "notifications": notifications,
-    })
+    return render(
+        request,
+        "debts/tenant_detail.html",
+        {
+            "tenant": tenant,
+            "payments": payments,
+            "notifications": notifications,
+        },
+    )
 
 
 def notification_pdf_view(request, pk):
